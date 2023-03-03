@@ -1,4 +1,20 @@
+using Qarc.DataFeed.Core.Application.AddGuerrillaAggregatedData.Queries;
+using Qarc.DataFeed.Core.Domain.Model;
 using System.Reflection;
+using Qarc.DataFeed.Adapter.Mongo.Bootstrapper;  // this is BAD - this adaptor should not know of other adaptors - create compositon root project
+using Qarc.DataFeed.Adapter.Api.Hubs;
+
+var api = new ApiAdapter(args, services =>
+{
+    //services.AddSingleton<ISettingsManager, SettingsManager>();
+
+    //TODO: this forces me to add a dependency on mongo adaptor. Create composition root project and move this section in it.
+    services.AddMongoServices()
+    .AddMongoRepository<GuerrillaTrendRevBar>("GuerrillaTrendRevBarCollection")
+    .AddMongoRepository<TrendRevBar>("TrendRevBarCollection")
+    .AddMongoRepository<TrendRevBar>("BarCollection")
+    .AddMongoRepository<TrendRevBar>("TickCollection");
+});
 
 /// <summary>
 /// This class will build and run the Web API app.
@@ -16,7 +32,12 @@ public class ApiAdapter
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddAutoMapper(typeof(ApiAdapter));
+        builder.Services.AddSignalR();
+
         builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(GetGuerrillaTrendRevBarsHandler).Assembly));
+  
         // Add services to the container by invoking whatever method is passed through the action delegate whil passing it the builder.services so that it can add services.
         options.Invoke(builder.Services);
 
@@ -28,22 +49,23 @@ public class ApiAdapter
         var _app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (_app.Environment.IsDevelopment())
-        {
-            _app.UseSwagger();
-            _app.UseSwaggerUI();
-        }
+        //if (app.Environment.IsDevelopment())
+        //{
+        //    _app.UseSwagger();
+        //    _app.UseSwaggerUI();
+        //}
+        _app.UseSwagger();
+        _app.UseSwaggerUI();
 
         _app.UseHttpsRedirection();
 
         _app.UseAuthorization();
 
         _app.MapControllers();
-    }
 
-    public Task StartAsync()
-    {
-        return _app.RunAsync();
+        _app.MapHub<AtasHub>("/atasHub");
+
+        _app.Run();
     }
 }
 

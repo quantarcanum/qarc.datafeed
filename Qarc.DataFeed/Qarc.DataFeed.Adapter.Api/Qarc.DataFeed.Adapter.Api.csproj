@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
@@ -16,7 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\Qarc.DataFeed.Adapter.Mongo\Qarc.DataFeed.Adapter.Mongo.csproj" />
+    <ProjectReference Include="..\Qarc.DataFeed.Core.Application\Qarc.DataFeed.Core.Application.csproj" />
   </ItemGroup>
 
 </Project>

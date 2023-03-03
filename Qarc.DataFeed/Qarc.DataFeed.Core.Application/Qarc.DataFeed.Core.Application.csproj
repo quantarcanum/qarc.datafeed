@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AddGuerrillaAggregatedData\Ports\" />
+    <Folder Include="AddAggregatedData\" />
+    <Folder Include="AddTickData\" />
+    <Folder Include="AggregateTickData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Qarc.DataFeed.Core.Domain\Qarc.DataFeed.Core.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

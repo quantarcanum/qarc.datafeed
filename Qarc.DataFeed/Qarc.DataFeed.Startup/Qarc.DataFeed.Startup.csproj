@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Qarc.DataFeed.Adapter.Api\Qarc.DataFeed.Adapter.Api.csproj" />
+    <ProjectReference Include="..\Qarc.DataFeed.Adapter.Mongo\Qarc.DataFeed.Adapter.Mongo.csproj" />
   </ItemGroup>
 
 </Project>
