@@ -7,12 +7,24 @@ Ingest tick data and aggregated data from different sources via REST, SignalR, W
 
 ### Structure
 Qarc.DataFeed Empty Solution
+
+**CompositionRoot**
+
 - Qarc.DataFeed.Startup (Console App) 
   - Entry point for starting Qarc.DataFeed.Adaptor.Api
   - Dirty CompositionRoot project hooking up dependencies for the whole microservice code   
 - Qarc.DataFeed.Adaptor.Api (ASP.NET Core Web API) 
 - Qarc.DataFeed.Adaptor.Mongo (ClassLibrary) 
   - Add MongoDb.Driver nuget
+  
+**Adaptors**
+
+- Qarc.DataFeed.Adaptor.Api (ASP.NET Core Web API) 
+- Qarc.DataFeed.Adaptor.Mongo (ClassLibrary)
+- Qarc.DataFeed.Adaptor.Kafka (ClassLibrary)
+
+**Core**
+
 - Qarc.DataFeed.Core.Domain (ClassLibrary)
 - Qarc.DataFeed.Core.Application (ClassLibrary)  
 
@@ -25,6 +37,7 @@ Qarc.DataFeed Empty Solution
  - Add composion to models and write custom serializer for mongo mapper and also adjust automapper
  - Add input model fluent validation
  - Add Security
+ - Environment Variables and Secrets after setting up CICD
  - Add logging & tracing w/ correlation token after setting up the infrastructure in kubernetes 
  - Tests
 
