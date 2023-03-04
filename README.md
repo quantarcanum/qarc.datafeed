@@ -68,6 +68,7 @@ docker exec -it container_ID bash                    // log into a contianer
 docker exit                                          // log out of a contianer
 docker rm -a container_ID                            // delete a container
 ```
+Check if it works by pinging http://localhost:3230/swagger/index.html
 
 #### 3. Push the Docker Image to Dockerhub
 >_On docker hub we have a limitation that it only allows for one private repository. So in order to store multiple images we will use the same image name with different tags. Instead of using the tag to provide the version v1.0.0 we will use the tag as the "image name"._
