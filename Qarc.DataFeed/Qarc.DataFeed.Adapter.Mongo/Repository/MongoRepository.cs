@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Qarc.DataFeed.Adapter.Mongo.Indexes;
 using Qarc.DataFeed.Core.Application.SharedKernel;
 using Qarc.DataFeed.Core.Domain.SharedKernel;
 using System.Linq.Expressions;
@@ -13,6 +14,7 @@ namespace Qarc.DataFeed.Adapter.Mongo.Repository
         public MongoRepository(IMongoDatabase database, string collectionName)
         {
             this._collection = database.GetCollection<T>(collectionName);
+            CollectionIndex.CreateIndexIfRequired(this._collection);
         }
 
         public async Task CreateAsync(T entity)

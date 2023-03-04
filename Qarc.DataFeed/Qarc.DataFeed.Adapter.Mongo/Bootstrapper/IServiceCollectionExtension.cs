@@ -40,8 +40,8 @@ namespace Qarc.DataFeed.Adapter.Mongo.Bootstrapper
             {
                 var database = serviceProvider.GetService<IMongoDatabase>();
                 
-                var collection = database.GetCollection<T>(collectionName);
-                CollectionIndex.CreateIndexIfRequired(collection);
+                //var collection = database.GetCollection<T>(collectionName);
+                //CollectionIndex.CreateIndexIfRequired(collection);
 
                 return new MongoRepository<T>(database, collectionName);
             });
