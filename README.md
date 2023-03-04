@@ -120,6 +120,7 @@ sudo k3s kubectl create -f deployment.yaml
 sudo k3s kubectl create -f service.yaml
 sudo k3s kubectl create -f ingress.yaml
  ```
+ *use "delete" instead of "create" if you need to delete the resources first. Or delte them via kubectl commands
  
 
 ## Dependency Graph
