@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Qarc.DataFeed.Adapter.Api.ViewModels;
+using Qarc.DataFeed.Core.Application.AddGuerrillaAggregatedData.Queries;
 
 namespace Qarc.DataFeed.Adapter.Api.Controllers
 {
@@ -7,5 +9,17 @@ namespace Qarc.DataFeed.Adapter.Api.Controllers
     [ApiController]
     public class AtasAggregatedDataController : ControllerBase
     {
+        [HttpGet(Name = "test")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                return Ok(1);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
