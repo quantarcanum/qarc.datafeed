@@ -14,11 +14,11 @@ namespace Qarc.DataFeed.Adapter.Api.Controllers
         {
             try
             {
-                return Ok(1);
+                return Ok("test succedded");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
