@@ -36,7 +36,7 @@ jobs:
           base64-kube-config: ${{ secrets.KUBE_CONFIG_BASE64 }}
       - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/deployment.yaml
       - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/service.yaml
-      - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/ingress.yaml
+      - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/ingressroute.yaml
       - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/deployment.yaml
       - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/service.yaml
-      - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/ingress.yaml
+      - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/ingressroute.yaml
