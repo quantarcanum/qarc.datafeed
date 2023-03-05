@@ -30,3 +30,8 @@ jobs:
           file: ./Qarc.DataFeed/Qarc.DataFeed.Adapter.Api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/quantarcanum:qarc-datafeed
+
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG_BASE64 }}
+      - run: kubectl get pods
