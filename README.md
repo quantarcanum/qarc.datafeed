@@ -124,15 +124,4 @@ sudo k3s kubectl create -f ingress.yaml
  *use "delete" instead of "create" if you need to delete the resources first. Or delte them via kubectl commands
  
 
-## Dependency Graph
-
-
-## Tech Debt
-
- - Add CompositionRoot project for bootstrapping and REMOVE mongo & kafka project dependencies form API project!!!!
- - Point datafeed to Write mongo instance after cluster is ready
- - Add composion to models and write custom serializer for mongo mapper and also adjust automapper
- - Add input model fluent validation
- - Add Security
- - Add logging & tracing w/ correlation token after setting up the infrastructure in kubernetes 
- - Tests
+### CICD
