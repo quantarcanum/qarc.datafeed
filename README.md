@@ -41,8 +41,7 @@ Qarc.DataFeed Empty Solution
  - Add logging & tracing w/ correlation token after setting up the infrastructure in kubernetes 
  - Tests
 
-## Deployment
-### Manual Deployment Steps
+## Manual Deployment
 
 _In order to get the latest dockerfile (with all project references) just copy the ports from it, delete it, Add / Docker Support , then paste back the ports._
 
@@ -119,9 +118,96 @@ Pull from server and cd into Kubernetes folder where the yamls reside and run
  ```
 sudo k3s kubectl create -f deployment.yaml
 sudo k3s kubectl create -f service.yaml
-sudo k3s kubectl create -f ingress.yaml
+sudo k3s kubectl create -f ingressroute.yaml
  ```
  *use "delete" instead of "create" if you need to delete the resources first. Or delte them via kubectl commands
  
 
-### CICD
+## CICD
+
+### Prerequisites
+1. Generate DockerHub Access Token
+1. Export kube.config and make it accessible via web
+1. Setup secrets in GitHub
+
+#### 1. Create DockerHub Access Token
+Navigate to [https://hub.docker.com/settings/security](https://hub.docker.com/settings/security) and click New Access Token
+
+#### 2. Export baremetal cluster kube.config and make it accessible via web
+For this follow [this](https://dev.azure.com/piticasr/Kubernetes/_wiki/wikis/Kubernetes.wiki/198/-1.2-k3s-Install-Expose-Kube.config) page.
+
+#### 3. Setup secrets in GitHub
+On Github Navigate to Settings->Secrets and Variables/Actions (github.com/ACCOUNT/REPO/settings/secretes/actions) 
+Click on Manage Organization Secrets in quantarcanum case then click on "New Organization Secrets" and create three secrets named as such:
+
+- **Name**: DOCKER_USERNAME 
+- **Value**: pete3m
+<br><br>
+- **Name**: DOCKER_KEY
+- **Value**: paste in the access token generated above
+<br><br>
+- **Name**: KUBE_CONFIG_BASE64
+- **Value**: paste in the value generated above
+
+### Github Action yaml
+Navigate to the repo's "Actions" tab ([https://github.com/quantarcanum/qarc.datafeed/actions](https://github.com/quantarcanum/qarc.datafeed/actions)) and click on New Workflow and add this yaml code:
+```
+name: CICD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_KEY }}
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./Qarc.DataFeed
+          file: ./Qarc.DataFeed/Qarc.DataFeed.Adapter.Api/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/quantarcanum:qarc-datafeed
+
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ secrets.KUBE_CONFIG_BASE64 }}
+      - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/deployment.yaml --ignore-not-found=true
+      - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/service.yaml --ignore-not-found=true
+      - run: kubectl delete -f ./Qarc.DataFeed/Kubernetes/ingressroute.yaml --ignore-not-found=true
+      - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/deployment.yaml
+      - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/service.yaml
+      - run: kubectl create -f ./Qarc.DataFeed/Kubernetes/ingressroute.yaml
+```
+**Trigger**: push/PR to main branch<br>
+
+**Checkout**: actions/checkout@v3 action that pulls the code from the main branch<br>
+
+**DockerHub Login**: docker/login-action@v2 uses the github secrets - make sure they match <br>
+
+**Build & Push**: docker/build-push-action@v4 builds the code using the Dockerfile - pay attention to the context - must be one folder up from the dockerfile directory so it finds the other projects referenced in the dockerfile<br>
+
+**Deploy** 
+- Here I'm using [this](https://github.com/tale/kubectl-action) action which allows me to run kubectl commands for baremetal cluster.
+- First I'm deleting the deployment, service and ingressroute if they exist
+- Then I'm recreating them (_I recreate the ingressroute in case I add new controllers to the api_)<br>
+- _*TODO: There's probably a more efficient and elegant way of doing this so find it!_
+
+
+
