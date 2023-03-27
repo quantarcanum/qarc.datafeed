@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AddGuerrillaAggregatedData\Ports\" />
-    <Folder Include="AddAggregatedData\" />
+    <Folder Include="AddAggregatedData\Ports\" />
     <Folder Include="AddTickData\" />
     <Folder Include="AggregateTickData\" />
   </ItemGroup>

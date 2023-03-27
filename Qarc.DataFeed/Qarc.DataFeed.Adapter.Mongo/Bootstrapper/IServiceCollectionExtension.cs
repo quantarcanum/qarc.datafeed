@@ -39,9 +39,6 @@ namespace Qarc.DataFeed.Adapter.Mongo.Bootstrapper
             services.AddSingleton<IRepository<T>>(serviceProvider =>
             {
                 var database = serviceProvider.GetService<IMongoDatabase>();
-                
-                //var collection = database.GetCollection<T>(collectionName);
-                //CollectionIndex.CreateIndexIfRequired(collection);
 
                 return new MongoRepository<T>(database, collectionName);
             });

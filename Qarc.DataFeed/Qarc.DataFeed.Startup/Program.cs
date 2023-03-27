@@ -13,7 +13,7 @@
                 ////serviceCollection.AddScoped<>(IInterface, Class);
                 ////var services = Microsoft.Extensions.Configuration.GetSection(nameof(ServiceSettings)).Get<ServiceSettings>();
 
-                //services.AddMongoServices().AddMongoRepository<GuerrillaTrendRevBar>("GuerrillaTrendRevBarCollection");
+                //services.AddMongoServices().AddMongoRepository<Bar>("BarCollection");
             });
             //await api.StartAsync();
         }

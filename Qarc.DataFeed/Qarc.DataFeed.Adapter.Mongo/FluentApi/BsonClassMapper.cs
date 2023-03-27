@@ -10,12 +10,12 @@ namespace Qarc.DataFeed.Adapter.Mongo.FluentApi
     {
         public static void MapAll()
         {
-            MapGuerrillaTrendRevBar();
+            MapBar();
         }
 
-        public static void MapGuerrillaTrendRevBar()
+        public static void MapBar()
         {
-            BsonClassMap.RegisterClassMap<GuerrillaTrendRevBar>(cm =>
+            BsonClassMap.RegisterClassMap<Bar>(cm =>
             {
                 cm.AutoMap(); //use this first, then override specific props
 

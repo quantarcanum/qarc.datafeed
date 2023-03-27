@@ -1,20 +1,15 @@
-﻿using Qarc.DataFeed.Core.Domain.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Qarc.DataFeed.Adapter.Api.InputModels
+namespace Qarc.DataFeed.Core.Domain.Model
 {
-    public class GuerrillaTrendRevBarInputModel
+    public class BarInfo
     {
-        public string Instrument { get; set; }
-        public string Exchange { get; set; }
-        public decimal TickValue { get; set; }
-        public decimal TickSize { get; set; }
-        public int TrendTicks { get; set; }
-        public int ReversalTicks { get; set; }
         public DateTime Time { get; set; }
         public DateTime LastTime { get; set; }
-        public bool IsBomb { get; set; }
-        public bool IsBrokenPivot { get; set; }
-        public bool IsPivot { get; set; }
         public decimal Open { get; set; }
         public decimal High { get; set; }
         public decimal Low { get; set; }
@@ -40,4 +35,16 @@ namespace Qarc.DataFeed.Adapter.Api.InputModels
         public PriceVolumeInfo MaxNegativeDeltaPriceInfo { get; set; }
         public IEnumerable<PriceVolumeInfo> AllPriceLevels { get; set; }
     }
+
+    public class PriceVolumeInfo
+    {
+        public decimal Volume { get; set; }
+        public decimal Bid { get; set; }
+        public decimal Ask { get; set; }
+        public int Ticks { get; set; }
+        public decimal Between { get; set; }
+        public int Time { get; set; }
+        public decimal Price { get; set; }
+    }
+
 }

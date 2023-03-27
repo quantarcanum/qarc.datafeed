@@ -1,8 +1,8 @@
-using Qarc.DataFeed.Core.Application.AddGuerrillaAggregatedData.Queries;
 using Qarc.DataFeed.Core.Domain.Model;
 using System.Reflection;
 using Qarc.DataFeed.Adapter.Mongo.Bootstrapper;  // this is BAD - this adaptor should not know of other adaptors - create compositon root project
 using Qarc.DataFeed.Adapter.Api.Hubs;
+using Qarc.DataFeed.Core.Application.AddAggregatedData.Queries;
 
 var api = new ApiAdapter(args, services =>
 {
@@ -10,10 +10,7 @@ var api = new ApiAdapter(args, services =>
 
     //TODO: this forces me to add a dependency on mongo adaptor. Create composition root project and move this section in it.
     services.AddMongoServices()
-    .AddMongoRepository<GuerrillaTrendRevBar>("GuerrillaTrendRevBarCollection")
-    .AddMongoRepository<TrendRevBar>("TrendRevBarCollection")
-    .AddMongoRepository<TrendRevBar>("BarCollection")
-    .AddMongoRepository<TrendRevBar>("TickCollection");
+    .AddMongoRepository<Bar>("BarCollection");
 });
 
 /// <summary>
@@ -36,7 +33,7 @@ public class ApiAdapter
         builder.Services.AddSignalR();
 
         builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-        builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(GetGuerrillaTrendRevBarsHandler).Assembly));
+        builder.Services.AddMediatR(x => x.RegisterServicesFromAssembly(typeof(GetBarsHandler).Assembly));
   
         // Add services to the container by invoking whatever method is passed through the action delegate whil passing it the builder.services so that it can add services.
         options.Invoke(builder.Services);
